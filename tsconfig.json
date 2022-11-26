@@ -11,7 +11,7 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
-    "outDir": "./build",
+    "outDir": "./dist",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,

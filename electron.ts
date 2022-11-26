@@ -1,5 +1,4 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
-import * as isDev from 'electron-is-dev';
 const path = require('path');
 
 let win: BrowserWindow | null;
@@ -17,11 +16,8 @@ app.whenReady().then(() => {
     titleBarStyle: 'hidden',
   });
 
-  win.loadURL(
-    isDev
-      ? 'http://localhost:5173'
-      : `file://${path.join(__dirname, '../index.html')}`
-  );
+  // win.loadURL(`file://${path.join(__dirname, '../index.html')}`);
+  win.loadFile('index.html');
   win.on("closed", () => (win = null));
 });
 
