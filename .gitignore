@@ -105,4 +105,3 @@ dist
 
 *.js
 !webpack.config.js
-build/

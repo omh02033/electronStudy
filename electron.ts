@@ -1,23 +1,27 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
-const path = require('path');
 
 let win: BrowserWindow | null;
 
+const isDev = process.env.NODE_ENV === 'develop';
+
 app.whenReady().then(() => {
   win = new BrowserWindow({
-    title: 'vite react electron',
+    title: 'harangt',
     width: 800,
     height: 600,
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: false
-      // devTools: false,
+      contextIsolation: false,
+      devTools: isDev,
     },
+    frame: false,
+    transparent: true,
     titleBarStyle: 'hidden',
   });
 
-  // win.loadURL(`file://${path.join(__dirname, '../index.html')}`);
   win.loadFile('index.html');
+  if (isDev) win.webContents.openDevTools();
+
   win.on("closed", () => (win = null));
 });
 

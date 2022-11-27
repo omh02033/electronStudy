@@ -1,11 +1,14 @@
 {
-  "name": "electron",
+  "name": "harangt",
   "version": "1.0.0",
   "main": "electron.js",
+  "build": {
+    "productName": "harangt"
+  },
   "scripts": {
     "build": "webpack && tsc ./electron.ts && electron-builder",
     "webpack": "webpack",
-    "start": " webpack && tsc ./electron.ts && electron .",
+    "start": "webpack && tsc ./electron.ts && cross-env NODE_ENV=develop electron .",
     "vite": "vite",
     "watch": "webpack --watch",
     "electron": "tsc ./electron.ts && electron ."
@@ -20,7 +23,6 @@
     "cross-env": "^7.0.3",
     "electron": "^21.3.1",
     "electron-builder": "^23.6.0",
-    "electron-is-dev": "^2.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "typescript": "^4.9.3",
