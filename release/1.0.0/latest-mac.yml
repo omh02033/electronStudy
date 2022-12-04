@@ -1,0 +1,8 @@
+version: 1.0.0
+files:
+  - url: harant-Mac-1.0.0-Installer.dmg
+    sha512: KV4PWNgFWotKNit4X9SxYR2dAmTxhyOHhHPSI9KprYLihpMGSc1HzxJDjLB1N1z7xhsoZGOXYV/loPYzhgk0YQ==
+    size: 91523234
+path: harant-Mac-1.0.0-Installer.dmg
+sha512: KV4PWNgFWotKNit4X9SxYR2dAmTxhyOHhHPSI9KprYLihpMGSc1HzxJDjLB1N1z7xhsoZGOXYV/loPYzhgk0YQ==
+releaseDate: '2022-12-04T15:45:00.750Z'
