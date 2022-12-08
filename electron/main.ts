@@ -7,7 +7,7 @@ process.env.PUBLIC = app.isPackaged
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { release } from 'os';
 import { join } from 'path';
-import './event';
+import './events';
 
 // Disable GPU Acceleration for Windows 7
 if (release().startsWith('6.1')) app.disableHardwareAcceleration();
@@ -15,14 +15,14 @@ if (release().startsWith('6.1')) app.disableHardwareAcceleration();
 // Set application name for Windows 10+ notifications
 if (process.platform === 'win32') app.setAppUserModelId(app.getName());
 
-let win: BrowserWindow | null = null;
+export let mainWin: BrowserWindow | null = null;
 
 const preload = join(__dirname, './preload.js');
-const url = process.env.VITE_DEV_SERVER_URL;
-const indexHtml = join(process.env.DIST, 'index.html');
+export const url = process.env.VITE_DEV_SERVER_URL;
+export const indexHtml = join(process.env.DIST, 'index.html');
 
 async function createWindow() {
-  win = new BrowserWindow({
+  mainWin = new BrowserWindow({
     title: 'haragt',
     webPreferences: {
       preload,
@@ -33,19 +33,19 @@ async function createWindow() {
 
   if (process.env.VITE_DEV_SERVER_URL) {
     // electron-vite-vue#298
-    win.loadURL(url);
+    mainWin.loadURL(url);
     // Open devTool if the app is not packaged
-    win.webContents.openDevTools();
+    mainWin.webContents.openDevTools();
   } else {
-    win.loadFile(indexHtml);
+    mainWin.loadFile(indexHtml);
   }
 
-  win.webContents.on('did-finish-load', () => {
-    win?.webContents.send('main-process-message', new Date().toLocaleString())
-  })
+  mainWin.webContents.on('did-finish-load', () => {
+    mainWin?.webContents.send('main-process-message', new Date().toLocaleString());
+  });
 
   // Make all links open with the browser, not with the application
-  win.webContents.setWindowOpenHandler(({ url }) => {
+  mainWin.webContents.setWindowOpenHandler(({ url }) => {
     if (url.startsWith('https:')) shell.openExternal(url);
     return { action: 'deny' };
   });
@@ -53,16 +53,18 @@ async function createWindow() {
 
 app.whenReady().then(createWindow);
 
+app.on('will-quit', () => {
+});
 app.on('window-all-closed', () => {
-  win = null;
+  mainWin = null;
   if (process.platform !== 'darwin') app.quit();
 });
 
 app.on('second-instance', () => {
-  if (win) {
+  if (mainWin) {
     // Focus on the main window if the user tried to open another
-    if (win.isMinimized()) win.restore();
-    win.focus();
+    if (mainWin.isMinimized()) mainWin.restore();
+    mainWin.focus();
   }
 });
 
